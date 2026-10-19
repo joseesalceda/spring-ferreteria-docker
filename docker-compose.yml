@@ -1,0 +1,24 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_DATABASE: db_ferreteria
+      MYSQL_ROOT_PASSWORD: "1234"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+  
+  mi-app-spring:
+    build: .
+    container_name: spring_boot_container
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql-db
+
+volumes:
+  mysql_data:
