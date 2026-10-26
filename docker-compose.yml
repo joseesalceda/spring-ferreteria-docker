@@ -4,8 +4,8 @@ services:
     container_name: mysql_container
     restart: always
     environment:
-      MYSQL_DATABASE: db_ferreteria
-      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -15,6 +15,10 @@ services:
     build: .
     container_name: spring_boot_container
     restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE}
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "8081:8081"
     depends_on:
